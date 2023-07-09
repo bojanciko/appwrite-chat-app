@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import client, { collectionIDMessages, databaseID, databases } from '../appwriteConfig'
+import client, { databases } from '../appwriteConfig'
 import { ID, Query, Role, Permission } from 'appwrite'
 import { Trash2 } from 'react-feather'
 import Header from '../components/Header'
 import { useAuth } from '../utils/AuthContext'
+
+const databaseID = import.meta.env.VITE_DATABASE_ID
+ const collectionIDMessages = import.meta.env.VITE_COLLECTION_ID_MESSAGES
 
 const Room = () => {
   const [messages, setMessages] = useState([])
