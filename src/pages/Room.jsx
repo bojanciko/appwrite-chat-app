@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import client, { collectionIDMessages, databaseID, databases } from '../appwriteConfig'
+import client, { COLLECTION_ID_MESSAGES, DATABASE_ID, databases } from '../appwriteConfig'
 import { ID, Query, Role, Permission } from 'appwrite'
 import { Trash2 } from 'react-feather'
 import Header from '../components/Header'
@@ -14,7 +14,7 @@ const Room = () => {
   useEffect(() => {
     getMessages()
 
-    const unsubscribe = client.subscribe(`databases.${databaseID}.collections.${collectionIDMessages}.documents`, response => {
+    const unsubscribe = client.subscribe(`databases.${DATABASE_ID}.collections.${COLLECTION_ID_MESSAGES}.documents`, response => {
       // Callback will be executed on changes for documents A and all files.
       console.log('REAL TIME: ', response);
       if (response.events.includes('databases.*.collections.*.documents.*.create')){
@@ -47,8 +47,8 @@ const Room = () => {
     ]
 
     let response = await databases.createDocument(
-      databaseID,
-      collectionIDMessages,
+      DATABASE_ID,
+      COLLECTION_ID_MESSAGES,
       ID.unique(),
       payload,
       permissions
@@ -60,7 +60,7 @@ const Room = () => {
   }
   
   const getMessages = async () => {
-    const response = await databases.listDocuments(databaseID, collectionIDMessages, [
+    const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID_MESSAGES, [
       Query.orderDesc('$createdAt'),
       Query.limit(10)
     ])
@@ -70,7 +70,7 @@ const Room = () => {
 
   const deleteMessage = async (msgId) => {
 
-    await databases.deleteDocument(databaseID, collectionIDMessages, msgId)
+    await databases.deleteDocument(DATABASE_ID, COLLECTION_ID_MESSAGES, msgId)
     // setMessages(prevState => messages.filter((msg) => msg.$id !== msgId))
   }
 
